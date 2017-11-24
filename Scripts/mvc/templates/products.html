@@ -21,10 +21,10 @@
 	<section>
 		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		  <ul class="navbar-nav">
-		    <li class="nav-item active">
+		    <li class="nav-item">
 		      <a class="nav-link" href="../home">Home</a>
 		    </li>
-		    <li class="nav-item">
+		    <li class="nav-item active">
 		      <a class="nav-link" href="../products">Products</a>
 		    </li>
 		    <li class="nav-item">
@@ -40,7 +40,42 @@
 		</nav>
 	</section>
 
-	
+	<!-- permission -->
+	<section  class="section_product">
+		<p>
+			<ul class="list-group">
+			  <li class="list-group-item"> 
+			  	<input type="button" class="btn btn-info" value="Edit" onclick="location.href = '../product_edit?id=2';"> &nbsp &nbsp Product A &nbsp  Price: &nbsp
+			  <li class="list-group-item">Product B</li>
+			  <li class="list-group-item">Product C</li>
+			</ul>
+		</p>
+	</section>
+
+	<section class="center_production">
+		<form action="add_product">
+			<section class="form-group">
+				
+				<label>Nome do produto: 
+					<input type="text" name = "n_product" class="form-control" />
+				</label>	
+			</section>
+			<section class="form-group">
+				<label>Valor do produto: 
+					<input type="number" name = "v_product" class="form-control" />
+				</label>
+			</section>
+
+
+			<section class="form-group">
+				<label>Imagem do produto: 
+					<input type="file" name = "i_product" class="form-control" />
+				</label>
+			<section class="form-group">
+				<input type="submit" value="Add Product" />
+			</section>
+		</form>
+	</section>
 
 </body>
 
