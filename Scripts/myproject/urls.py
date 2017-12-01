@@ -24,7 +24,7 @@ from mvc import views
 urlpatterns = [
    url(r'^admin/', admin.site.urls),
    url(r'^teste/' , views.HomePageView.as_view()),
-   url(r'^UserPageView/' , views.UsuarioPageView.as_view()),
+#   url(r'^UserPageView/' , views.UsuarioPageView.as_view()),
    url(r'^login/' , views.HomePageView.index, name='index'),
    url(r'^registrar/' , views.HomePageView.registrar, name='registrar'),
    url(r'^kart/' , views.HomePageView.kart, name='kart'),
