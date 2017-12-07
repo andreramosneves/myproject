@@ -42,8 +42,13 @@ class HomePageView(View):
 		return render(request,'login.html')
 	def registrar(request):
 		if(request.method == "POST"):
-			usuario = Usuario(usuario=request.POST.get('user'),senha=request.POST.get('pwd'),dt_cadastro=date.today().isoformat())
-			usuario.save()
+			usr = Usuario.objects.filter(usuario=request.POST.get('user'))
+			if len(usr) != 0:
+				msg = "Usuário já cadastrado!!"
+				return render(request,'registrar.html', {'message' : msg})
+			else:
+				usuario = Usuario(usuario=request.POST.get('user'),senha=request.POST.get('pwd'),dt_cadastro=date.today().isoformat())
+				usuario.save()
 		return render(request,'registrar.html',)
 	def kart(request):
 	    return render(request,'kart.html',)

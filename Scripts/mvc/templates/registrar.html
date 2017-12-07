@@ -44,23 +44,35 @@
 		<section class="politica">
 		</section>
 
-		<form method="POST">
+		<form name="form" method="POST" onsubmit="return validateForm()">
 			{% csrf_token %}
 			<section class="form-group">
 			  <label for="user">Email:</label>
-			  <input type="email" class="form-control" id="user" name="user">
+			  <input type="email" class="form-control" id="user" name="user" required>
 			</section>
 			<section class="form-group">
 			  <label for="pwd">Senha:</label>
-			  <input type="password" class="form-control" id="pwd" name="pwd">
+			  <input type="password" class="form-control" id="pwd" name="pwd" required>
 			  <label for="pwd">Repita a Senha:</label>
-			  <input type="password" class="form-control" id="pwd">
+			  <input type="password" class="form-control" id="pwd2" name="pwd2" required>
 			</section>
 			<section class="form-check">
 			</section>
 			<input type="submit" class="btn btn-primary" value="Registrar"/>
 
 		</form>
+		<p style="color:red">{{ message }}</p>
+		
+		<script type="text/javascript">
+			function validateForm() {
+			    if ($('#pwd').get(0).value != $('#pwd2').get(0).value) {
+			        alert("Senhas devem ser iguais! ");
+			        return false;
+			    }
+			}			
+
+
+		</script>
 	</section>
 	
 
