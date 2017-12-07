@@ -8,7 +8,9 @@ from django.template.loader import render_to_string
 
 from django.template import Context, Template
 
-import datetime
+import time
+
+from datetime import date
 
 from mvc.models import Usuario
 
@@ -39,7 +41,10 @@ class HomePageView(View):
 	def index(request):
 		return render(request,'login.html')
 	def registrar(request):
-	    return render(request,'registrar.html',)
+		if(request.method == "POST"):
+			usuario = Usuario(usuario=request.POST.get('user'),senha=request.POST.get('pwd'),dt_cadastro=date.today().isoformat())
+			usuario.save()
+		return render(request,'registrar.html',)
 	def kart(request):
 	    return render(request,'kart.html',)
 	def order(request):
