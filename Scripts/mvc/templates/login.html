@@ -38,12 +38,16 @@
 		    <li class="nav-item">
 		      <a class="nav-link" href="../login">Login</a>
 		    </li>
+		    <li class="nav-item">
+		      <a class="nav-link" href="../logout">Logout</a>
+		    </li>
+		    
 		  </ul>
 		</nav>
 	</section>
 
 	<section class="head">
-		<form action="../loga" method="POST"> {% csrf_token %}
+		<form method="POST"> {% csrf_token %}
 			<section class="form-group">
 			  <label for="user">Email:</label>
 			  <input type="email" class="form-control" id="user" name="user">

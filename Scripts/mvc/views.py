@@ -38,8 +38,6 @@ class HomePageView(View):
                                  }))
 		return HttpResponse(html)
 
-	def index(request):
-		return render(request,'login.html')
 	def registrar(request):
 		if(request.method == "POST"):
 			usr = Usuario.objects.filter(usuario=request.POST.get('user'))
@@ -58,14 +56,31 @@ class HomePageView(View):
 	    return render(request,'products.html',)
 	def home(request):
 	    return render(request,'home.html',)
-	def loga(request):
-		usuario = Usuario.objects.filter(usuario=request.POST.get('user'),senha=request.POST.get('psw'))
-		if len(usuario) == 0:
-			msg = "Usuário Inválido!"
-			return render(request,'login.html',{'message': msg})
-		else: #criar sessao
-			return render(request,'home.html',)
+	def login(request):
+		if(request.method == "POST"):
+			try:
+				del request.session['user_id']
+				del request.session['user_name']
+			except KeyError:
+				pass
+			usuario = Usuario.objects.filter(usuario=request.POST.get('user'),senha=request.POST.get('psw'))
+			if len(usuario) == 0:
+				msg = "Usuário Inválido!"
+				return render(request,'login.html',{'message': msg})
+			else: #criar sessao
+				request.session['user_id'] = usuario[0].id
+				request.session['user_name'] = usuario[0].usuario
+				msg = request.session['user_name']
+				return render(request,'home.html',{'message' : msg})
+		return render(request,'login.html',)
 
+	def logout(request):
+	    try:
+	        del request.session['user_id']
+	        del request.session['user_name']
+	    except KeyError:
+	        pass
+	    return render(request,'home.html',)
 
 
 

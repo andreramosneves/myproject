@@ -24,7 +24,6 @@
 		    <li class="nav-item active">
 		      <a class="nav-link" href="../home">Home</a>
 		    </li>
-		    
 		    <!-- Permission
 		    <li class="nav-item">
 		      <a class="nav-link" href="../products">Products</a>
@@ -39,11 +38,17 @@
 		    <li class="nav-item">
 		      <a class="nav-link" href="../login">Login</a>
 		    </li>
+		    <li class="nav-item">
+		      <a class="nav-link" href="../logout">Logout</a>
+		    </li>
+
 		  </ul>
 		</nav>
 	</section>
-
 	<!--  Line A -->
+	<p style="color:blue"> Usuário : {{ request.session.user_name }} </p>
+	
+
 	<p>
 		<section>
 			<img src="images/product.jpg" class="img-thumbnail" alt="Cinque Terre">

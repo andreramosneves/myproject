@@ -36,9 +36,14 @@
 		    <li class="nav-item">
 		      <a class="nav-link" href="../login">Login</a>
 		    </li>
+		    <li class="nav-item">
+		      <a class="nav-link" href="../logout">Logout</a>
+		    </li>
+		    
 		  </ul>
 		</nav>
 	</section>
+	<p style="color:blue"> Usuário : {{ request.session.user_name }} </p>
 
 	<!-- permission -->
 	<section  class="section_product">
