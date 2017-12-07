@@ -10,6 +10,8 @@ from django.template import Context, Template
 
 import datetime
 
+from mvc.models import Usuario
+
 
 
 # Create your views here.
@@ -35,7 +37,7 @@ class HomePageView(View):
 		return HttpResponse(html)
 
 	def index(request):
-	    return render(request,'login.html',)
+		return render(request,'login.html')
 	def registrar(request):
 	    return render(request,'registrar.html',)
 	def kart(request):
@@ -46,6 +48,14 @@ class HomePageView(View):
 	    return render(request,'products.html',)
 	def home(request):
 	    return render(request,'home.html',)
+	def loga(request):
+		usuario = Usuario.objects.filter(usuario=request.POST.get('user'),senha=request.POST.get('psw'))
+		if len(usuario) == 0:
+			msg = "Usuário Inválido!"
+			return render(request,'login.html',{'message': msg})
+		else: #criar sessao
+			return render(request,'home.html',)
+
 
 
 
