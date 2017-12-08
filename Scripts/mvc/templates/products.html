@@ -49,16 +49,19 @@
 	<section  class="section_product">
 		<p>
 			<ul class="list-group">
+  			  {% for p1 in list_product %}
 			  <li class="list-group-item"> 
-			  	<input type="button" class="btn btn-info" value="Edit" onclick="location.href = '../product_edit?id=2';"> &nbsp &nbsp Product A &nbsp  Price: &nbsp
-			  <li class="list-group-item">Product B</li>
-			  <li class="list-group-item">Product C</li>
+			  	<input type="button" class="btn btn-info" value="Finalizar produto" onclick="location.href = '../products?id={{ p1.id }}' ;"> &nbsp &nbsp {{ p1.nm_produto }} &nbsp  Price: {{ p1.valor_produto }} &nbsp 
+			  </li>
+			  {% endfor %}
 			</ul>
 		</p>
 	</section>
 
 	<section class="center_production">
-		<form action="add_product">
+		<form method="POST">
+			{% csrf_token %}
+
 			<section class="form-group">
 				
 				<label>Nome do produto: 
@@ -79,6 +82,8 @@
 			<section class="form-group">
 				<input type="submit" value="Add Product" />
 			</section>
+			<p style="color:red">{{ message }}</p>
+
 		</form>
 	</section>
 

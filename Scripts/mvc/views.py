@@ -12,8 +12,7 @@ import time
 
 from datetime import date
 
-from mvc.models import Usuario
-
+from mvc.models import *
 
 
 # Create your views here.
@@ -45,15 +44,32 @@ class HomePageView(View):
 				msg = "Usuário já cadastrado!!"
 				return render(request,'registrar.html', {'message' : msg})
 			else:
+				msg = "Usuário inserido com sucesso!!"
 				usuario = Usuario(usuario=request.POST.get('user'),senha=request.POST.get('pwd'),dt_cadastro=date.today().isoformat())
 				usuario.save()
+				return render(request,'registrar.html', {'message' : msg})
 		return render(request,'registrar.html',)
 	def kart(request):
-	    return render(request,'kart.html',)
+		if(request.method == "POST"):
+			msg = "Adicionado no carrinho!!"
+			return render(request,'kart.html',{'message': msg})
+		return render(request,'kart.html',)
 	def order(request):
 	    return render(request,'order.html',)
 	def products(request):
-	    return render(request,'products.html',)
+		list_product = Products.objects.filter(dt_termino__isnull=True)
+		try:
+			if(request.method == "POST"):
+				user =  Usuario.objects.get(pk=request.session['user_id'])
+				msg = "Produto cadastrado com sucesso!!"
+				product = Products(nm_produto=request.POST['n_product'],valor_produto=request.POST['v_product'],
+					photo=request.POST['i_product'],user_ins=user,dt_cadastro=date.today().isoformat())
+				product.save()
+				list_product = Products.objects.all()
+				return render(request,'products.html',{'message': msg, 'list_product' : list_product})
+		except KeyError:
+			return render(request,'products.html',{'message' : 'Usuário deve estar logado!!'})
+		return render(request,'products.html',{'list_product': list_product})
 	def home(request):
 	    return render(request,'home.html',)
 	def login(request):
