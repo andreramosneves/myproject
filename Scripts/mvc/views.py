@@ -65,7 +65,14 @@ class HomePageView(View):
 				product = Products(nm_produto=request.POST['n_product'],valor_produto=request.POST['v_product'],
 					photo=request.POST['i_product'],user_ins=user,dt_cadastro=date.today().isoformat())
 				product.save()
-				list_product = Products.objects.all()
+				list_product = Products.objects.filter(dt_termino__isnull=True)
+				return render(request,'products.html',{'message': msg, 'list_product' : list_product})
+			if(request.method == "GET" and request.GET.get('id') is not None):
+				msg = "Produto finalizado com sucesso!!"
+				product = Products.objects.get(pk=request.GET['id'])
+				product.dt_termino = date.today().isoformat()
+				product.save()
+				list_product = Products.objects.filter(dt_termino__isnull=True)
 				return render(request,'products.html',{'message': msg, 'list_product' : list_product})
 		except KeyError:
 			return render(request,'products.html',{'message' : 'Usuário deve estar logado!!'})
