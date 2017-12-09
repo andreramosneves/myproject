@@ -14,6 +14,11 @@ from datetime import date
 
 from mvc.models import *
 
+from django.conf import settings
+
+from django.core.files.storage import FileSystemStorage
+
+
 
 # Create your views here.
 class HomePageView(View):
@@ -56,29 +61,38 @@ class HomePageView(View):
 		return render(request,'kart.html',)
 	def order(request):
 	    return render(request,'order.html',)
+	
 	def products(request):
 		list_product = Products.objects.filter(dt_termino__isnull=True)
 		try:
-			if(request.method == "POST"):
-				user =  Usuario.objects.get(pk=request.session['user_id'])
-				msg = "Produto cadastrado com sucesso!!"
-				product = Products(nm_produto=request.POST['n_product'],valor_produto=request.POST['v_product'],
-					photo=request.POST['i_product'],user_ins=user,dt_cadastro=date.today().isoformat())
-				product.save()
-				list_product = Products.objects.filter(dt_termino__isnull=True)
-				return render(request,'products.html',{'message': msg, 'list_product' : list_product})
-			if(request.method == "GET" and request.GET.get('id') is not None):
-				msg = "Produto finalizado com sucesso!!"
-				product = Products.objects.get(pk=request.GET['id'])
-				product.dt_termino = date.today().isoformat()
-				product.save()
-				list_product = Products.objects.filter(dt_termino__isnull=True)
-				return render(request,'products.html',{'message': msg, 'list_product' : list_product})
+			user =  Usuario.objects.get(pk=request.session['user_id'])
 		except KeyError:
 			return render(request,'products.html',{'message' : 'Usuário deve estar logado!!'})
+		if(request.method == "POST"):
+			msg = "Produto cadastrado com sucesso!!"
+			try:
+				product = Products(nm_produto=request.POST['n_product'],valor_produto=request.POST['v_product'],
+					photo=request.FILES['i_product'] ,user_ins=user,dt_cadastro=date.today().isoformat())
+			except:
+				product = Products(nm_produto=request.POST['n_product'],valor_produto=request.POST['v_product']
+					,user_ins=user,dt_cadastro=date.today().isoformat())
+			product.save()
+			list_product = Products.objects.filter(dt_termino__isnull=True)
+			return render(request,'products.html',{'message': msg, 'list_product' : list_product})
+		if(request.method == "GET" and request.GET.get('id') is not None):
+			msg = "Produto finalizado com sucesso!!"
+			product = Products.objects.get(pk=request.GET['id'])
+			product.dt_termino = date.today().isoformat()
+			product.user_alt = user
+			product.save()
+			list_product = Products.objects.filter(dt_termino__isnull=True)
+			return render(request,'products.html',{'message': msg, 'list_product' : list_product})
 		return render(request,'products.html',{'list_product': list_product})
+
+
 	def home(request):
-	    return render(request,'home.html',)
+		list_product = Products.objects.filter(dt_termino__isnull=True)
+		return render(request,'home.html',{'list_product': list_product})
 	def login(request):
 		if(request.method == "POST"):
 			try:
@@ -104,6 +118,3 @@ class HomePageView(View):
 	    except KeyError:
 	        pass
 	    return render(request,'home.html',)
-
-
-
