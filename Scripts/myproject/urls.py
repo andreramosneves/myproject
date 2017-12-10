@@ -26,13 +26,13 @@ urlpatterns = [
    url(r'^teste/' , views.HomePageView.as_view()),
 #   url(r'^UserPageView/' , views.UsuarioPageView.as_view()),
 #   url(r'^login' , views.HomePageView.index, name='index'),
-   url(r'^registrar' , views.HomePageView.registrar, name='registrar'),
-   url(r'^kart' , views.HomePageView.kart, name='kart'),
-   url(r'^order' , views.HomePageView.order, name='order'),
-   url(r'^products' , views.HomePageView.products, name='products'),
-   url(r'^home' , views.HomePageView.home, name='home'),
-   url(r'^logout', views.HomePageView.logout, name='logout'),
-   url(r'^login', views.HomePageView.login, name='login'),
+   url(r'^registrar$' , views.HomePageView.registrar, name='registrar'),
+   url(r'^kart$' , views.HomePageView.kart, name='kart'),
+   url(r'^order$' , views.HomePageView.order, name='order'),
+   url(r'^products$' , views.HomePageView.products, name='products'),
+   url(r'^home$' , views.HomePageView.home, name='home'),
+   url(r'^logout$', views.HomePageView.logout, name='logout'),
+   url(r'^login$', views.HomePageView.login, name='login'),
 
 ] 
 

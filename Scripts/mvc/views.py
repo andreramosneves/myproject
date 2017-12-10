@@ -22,25 +22,6 @@ from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 class HomePageView(View):
-	def dispatch(request, *args, **kwargs):
-		now = datetime.datetime.now()
-		t = Template('''
-            	<!DOCTYPE html>
-                <html lang="pt-br">
-                <head>
-                    <title>Meu template</title>
-                    <meta charset="utf-8"/>
-                </head>
-                    <body>
-                        <p>Meu nome é {{ name }}</p>
-                        <p>Agora são: {{ current_date }}.</p>
-                    </body>
-                </html>
-            ''')
-		html = t.render(Context({'current_date': now,
-                                 'name': 'André Ramos Neves'
-                                 }))
-		return HttpResponse(html)
 
 	def registrar(request):
 		if(request.method == "POST"):
@@ -107,8 +88,7 @@ class HomePageView(View):
 			else: #criar sessao
 				request.session['user_id'] = usuario[0].id
 				request.session['user_name'] = usuario[0].usuario
-				msg = request.session['user_name']
-				return render(request,'home.html',{'message' : msg})
+				return home(request);
 		return render(request,'login.html',)
 
 	def logout(request):
