@@ -24,6 +24,7 @@ class Products(models.Model):
 
 class Kart(models.Model):
 	produto = models.ForeignKey('Products', on_delete=models.CASCADE)
+	order = models.ForeignKey('Order', on_delete=models.CASCADE)
 	user_ins = models.ForeignKey('Usuario', on_delete=models.CASCADE)
 	user_alt = models.ForeignKey(Usuario,related_name='kart_user_alt',null=True, blank=True)
 	valor_produto =  models.DecimalField(decimal_places=2,max_digits=7)
@@ -31,9 +32,8 @@ class Kart(models.Model):
 	dt_termino = models.DateField(null=True, blank=True)
 
 class Order(models.Model):
-	kart = models.ForeignKey('Kart', on_delete=models.CASCADE)
 	user_ins = models.ForeignKey('Usuario', on_delete=models.CASCADE)
 	user_alt = models.ForeignKey(Usuario,related_name='order_user_alt',null=True, blank=True)
 	dt_cadastro = models.DateField(blank=True)
 	dt_termino = models.DateField(null=True, blank=True)
-
+	dt_cancelamento = models.DateField(null=True, blank=True)

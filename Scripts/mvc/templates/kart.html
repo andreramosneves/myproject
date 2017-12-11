@@ -84,7 +84,11 @@
 				</tfoot>
 			</table>
 		</section>
-	<button> Finalize Kart</button>
+		<form action="order" method="POST">
+			{% csrf_token %}
+			<input type="submit" value="Finalize Kart" />
+			
+		</form>
 	</section>
 
 

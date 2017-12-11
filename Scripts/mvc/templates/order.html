@@ -46,41 +46,24 @@
 		</nav>
 	</section>
 	<p style="color:blue"> Usuário : {{ request.session.user_name }} </p>
+	<p style="color:red">{{ message }}</p>
 
 	<section class="section_product">
 		<section class="table-responsive">
 			<table class="table">
 				<tbody>
+					{% for l in list_order %}
 					<tr>
 						<td>
-							Pedido 1
+							Pedido {{ l.id }}
 						</td>
 						<td>
-							10.0
+							Seq: {{ i }}
 						</td>
 					</tr>
-					<tr>
-						<td>
-							Pedido 2
-						</td>
-						<td>
-							30.0
-						</td>
-
-					</tr>
+					{% endfor %}
 					
 				</tbody>		
-				<tfoot>
-					<tr>
-						<td>
-							Sum:
-						</td>
-						<td>
-							40.0
-						</td>
-					</tr>
-					
-				</tfoot>
 			</table>
 		</section>
 	</section>

@@ -46,14 +46,33 @@ class HomePageView(View):
 			msg = "Adicionado no carrinho!!"
 			user =  Usuario.objects.get(pk=request.session['user_id'])
 			product =  Products.objects.get(pk=request.POST['product_id'])
-			kart = Kart(produto=product,user_ins=user,valor_produto=product.valor_produto,dt_cadastro=date.today().isoformat())
+			#Crio o pedido
+			if(len(list_kart) == 0):
+				order_ob = Order(dt_cadastro=date.today().isoformat(),user_ins=user)
+				order_ob.save()
+			else:
+				for k in list_kart:
+					order_ob = k.order
+					break
+			kart = Kart(order=order_ob,produto=product,user_ins=user,valor_produto=product.valor_produto,dt_cadastro=date.today().isoformat())
 			kart.save()
 			list_kart = Kart.objects.filter(dt_termino__isnull=True,user_ins=request.session['user_id'])
 			soma = Kart.objects.filter(dt_termino__isnull=True,user_ins=request.session['user_id']).aggregate(Sum('valor_produto'))['valor_produto__sum']
 			return render(request,'kart.html',{'list_kart': list_kart,'message': msg,'soma': soma})
 		return render(request,'kart.html',{'list_kart': list_kart,'soma': soma})
 	def order(request):
-	    return render(request,'order.html',)
+		msg=''
+		try:
+			user =  Usuario.objects.get(pk=request.session['user_id'])
+		except KeyError:
+			return render(request,'order.html',{'message' : 'Usuário deve estar logado!!'})
+		list_order = Order.objects.filter(dt_termino__isnull=True,user_ins=request.session['user_id'])
+		if(request.method == "POST"):
+			msg = "Pedido cadastrado com sucesso!!"
+			kart_update = Kart.objects.filter(dt_termino__isnull=True,user_ins=request.session['user_id']).update(dt_termino = date.today().isoformat())
+			list_order = Order.objects.filter(dt_termino__isnull=True,user_ins=request.session['user_id'])
+		return render(request,'order.html',{'message' : msg,'list_order' :list_order})
+
 	
 	def products(request):
 		list_product = Products.objects.filter(dt_termino__isnull=True)
@@ -85,8 +104,8 @@ class HomePageView(View):
 
 	def home(request):
 		list_product = Products.objects.filter(dt_termino__isnull=True)
-
 		return render(request,'home.html',{'list_product': list_product})
+
 	def login(request):
 		if(request.method == "POST"):
 			try:
