@@ -25,11 +25,11 @@
 		    <li class="nav-item active">
 		      <a class="nav-link" href="../home">Home</a>
 		    </li>
-		    <!-- Permission
-		    <li class="nav-item">
-		      <a class="nav-link" href="../products">Products</a>
-		    </li>
-			-->
+		    {% if request.session.user_name == 'andrecaculinha@yahoo.com.br' %}
+			    <li class="nav-item">
+			      <a class="nav-link" href="../products">Products</a>
+			    </li>
+		    {% endif %}
 		    <li class="nav-item">
 		      <a class="nav-link" href=../kart>Kart</a>
 		    </li>		    
@@ -46,22 +46,27 @@
 		  </ul>
 		</nav>
 	</section>
-	<!--  Line A -->
+	<!--   .col-sm-4  Line A -->
 	<p style="color:blue"> Usuário : {{ request.session.user_name }} </p>
 	
 
 	<p>
 
-		{% for p1 in list_product %}		
-		<section class="pos">
-			<img src="media/{{p1.photo}}" class="img-thumbnail" alt="No Photo" width="250px" height="150px">
-			<p>
-				<input type="button" class="btn btn-info" value="Add Kart" onclick="location.href = '../kart?product_id={{p1.id}}';"/>
-				<span>{{ p1.nm_produto }}</span>
-				<span>{{ p1.valor_produto }}</span>
-			</p>
+
+		<section class="container">
+			<section class="row">
+			{% for p1 in list_product %}		
+				<section class="col-sm-4">
+					<img src="media/{{p1.photo}}" class="img-thumbnail" alt="No Photo" width="250px" height="200px">
+					<p>
+						<input type="button" class="btn btn-info" value="Add Kart" onclick="location.href = '../kart?product_id={{p1.id}}';"/>
+						<span>{{ p1.nm_produto }}</span>
+						<span>{{ p1.valor_produto }}</span>
+					</p>
+				</section>
+			{% endfor %}
+			</section>
 		</section>
-		{% endfor %}
 
 	</p>
 

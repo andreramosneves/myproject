@@ -88,7 +88,7 @@ class HomePageView(View):
 			else: #criar sessao
 				request.session['user_id'] = usuario[0].id
 				request.session['user_name'] = usuario[0].usuario
-				return home(request);
+				return HomePageView.home(request);
 		return render(request,'login.html',)
 
 	def logout(request):

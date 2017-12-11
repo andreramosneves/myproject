@@ -24,11 +24,11 @@
 		    <li class="nav-item">
 		      <a class="nav-link" href="../home">Home</a>
 		    </li>
-		    <!--
-		    <li class="nav-item">
-		      <a class="nav-link" href="../products">Products</a>
-		    </li>
-			-->
+		    {% if request.session.user_name == 'andrecaculinha@yahoo.com.br' %}
+			    <li class="nav-item">
+			      <a class="nav-link" href="../products">Products</a>
+			    </li>
+		    {% endif %}
 		    <li class="nav-item active">
 		      <a class="nav-link" href=../kart>Kart</a>
 		    </li>		    

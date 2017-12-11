@@ -18,6 +18,8 @@
 </head>
 
 <body>
+	{% if request.session.user_name == 'andrecaculinha@yahoo.com.br' %}
+
 	<section>
 		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		  <ul class="navbar-nav">
@@ -43,22 +45,9 @@
 		  </ul>
 		</nav>
 	</section>
-	<p style="color:blue"> Usuário : {{ request.session.user_name }} </p>
 
-	<!-- permission -->
-	<section  class="section_product">
-		<p>
-			<ul class="list-group">
-  			  {% for p1 in list_product %}
-			  <li class="list-group-item"> 
-			  	<input type="button" class="btn btn-info" value="Finalizar produto" onclick="location.href = '../products?id={{ p1.id }}' ;"> &nbsp &nbsp {{ p1.nm_produto }} &nbsp  Price: {{ p1.valor_produto }} &nbsp 
-			  </li>
-			  {% endfor %}
-			</ul>
-		</p>
-	</section>
-
-	<section class="center_production">
+	<section class="section_product">
+		<p style="color:blue"> Usuário : {{ request.session.user_name }} </p>
 		<form method="POST" enctype="multipart/form-data">
 			{% csrf_token %}
 
@@ -76,7 +65,7 @@
 
 
 			<section class="form-group">
-				<label>Imagem do produto: 
+				<label>Imagem do produto(Envie imagens com tamanhos parecidos): 
 					<input type="file" name = "i_product" class="form-control" />
 				</label>
 			<section class="form-group">
@@ -86,6 +75,23 @@
 
 		</form>
 	</section>
+	<!-- permission -->
+	<section  class="section_production">
+		<p>
+			<ul class="list-group">
+  			  {% for p1 in list_product %}
+			  <li class="list-group-item"> 
+			  	<input type="button" class="btn btn-info" value="Finalizar produto" onclick="location.href = '../products?id={{ p1.id }}' ;"> &nbsp &nbsp {{ p1.nm_produto }} &nbsp  Price: {{ p1.valor_produto }} &nbsp 
+			  </li>
+			  {% endfor %}
+			</ul>
+		</p>
+	</section>
+	{% else %}
+		<p style="color:red"> Você não tem permissão para acessar essa página </p>
+
+    {% endif %}
+
 
 </body>
 
