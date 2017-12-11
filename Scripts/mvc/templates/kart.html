@@ -47,36 +47,37 @@
 	</section>
 	<p style="color:blue"> Usuário : {{ request.session.user_name }} </p>
 
+	<p style="color:red">{{ message }}</p>
+
 	<section class="section_product">
 		<section class="table-responsive">
 			<table class="table">
 				<tbody>
+					{% for k1 in list_kart %}
 					<tr>
 						<td>
-							Product A
+							{{ k1.produto.id }}
 						</td>
 						<td>
-							10.0
+							{{ k1.produto.nm_produto }}
+						</td>
+						<td>
+							{{ k1.valor_produto }}
 						</td>
 					</tr>
-					<tr>
-						<td>
-							Product B
-						</td>
-						<td>
-							30.0
-						</td>
-
-					</tr>
+					{% endfor %}
 					
 				</tbody>		
 				<tfoot>
 					<tr>
 						<td>
-							Sum:
+							Total:
 						</td>
 						<td>
-							40.0
+							
+						</td>
+						<td>
+							 {{ soma }}
 						</td>
 					</tr>
 					

@@ -55,14 +55,19 @@
 
 		<section class="container">
 			<section class="row">
-			{% for p1 in list_product %}		
+			{% for p1 in list_product %}	
 				<section class="col-sm-4">
-					<img src="media/{{p1.photo}}" class="img-thumbnail" alt="No Photo" width="250px" height="200px">
-					<p>
-						<input type="button" class="btn btn-info" value="Add Kart" onclick="location.href = '../kart?product_id={{p1.id}}';"/>
-						<span>{{ p1.nm_produto }}</span>
-						<span>{{ p1.valor_produto }}</span>
-					</p>
+					<form action="kart" method="POST">
+						{% csrf_token %}
+							<img src="media/{{p1.photo}}" class="img-thumbnail" alt="No Photo" width="250px" height="200px">
+							<p>
+							<input type="hidden" name="product_id" value='{{p1.id}}' />
+							<input type="submit" class="btn btn-info" value="Add Kart" />
+							<span>{{ p1.nm_produto }}</span>
+							<span>{{ p1.valor_produto }}</span>
+
+							</p>
+					</form>
 				</section>
 			{% endfor %}
 			</section>

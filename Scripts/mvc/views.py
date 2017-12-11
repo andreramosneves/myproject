@@ -18,6 +18,7 @@ from django.conf import settings
 
 from django.core.files.storage import FileSystemStorage
 
+from django.db.models import Sum
 
 
 # Create your views here.
@@ -36,10 +37,21 @@ class HomePageView(View):
 				return render(request,'registrar.html', {'message' : msg})
 		return render(request,'registrar.html',)
 	def kart(request):
+		try:
+			list_kart = Kart.objects.filter(dt_termino__isnull=True,user_ins=request.session['user_id'])
+			soma = Kart.objects.filter(dt_termino__isnull=True,user_ins=request.session['user_id']).aggregate(Sum('valor_produto'))['valor_produto__sum']
+		except KeyError:
+			return render(request,'kart.html',{'message' : 'Usuário deve estar logado!!','list_kart': [],'soma':0})
 		if(request.method == "POST"):
 			msg = "Adicionado no carrinho!!"
-			return render(request,'kart.html',{'message': msg})
-		return render(request,'kart.html',)
+			user =  Usuario.objects.get(pk=request.session['user_id'])
+			product =  Products.objects.get(pk=request.POST['product_id'])
+			kart = Kart(produto=product,user_ins=user,valor_produto=product.valor_produto,dt_cadastro=date.today().isoformat())
+			kart.save()
+			list_kart = Kart.objects.filter(dt_termino__isnull=True,user_ins=request.session['user_id'])
+			soma = Kart.objects.filter(dt_termino__isnull=True,user_ins=request.session['user_id']).aggregate(Sum('valor_produto'))['valor_produto__sum']
+			return render(request,'kart.html',{'list_kart': list_kart,'message': msg,'soma': soma})
+		return render(request,'kart.html',{'list_kart': list_kart,'soma': soma})
 	def order(request):
 	    return render(request,'order.html',)
 	
@@ -73,6 +85,7 @@ class HomePageView(View):
 
 	def home(request):
 		list_product = Products.objects.filter(dt_termino__isnull=True)
+
 		return render(request,'home.html',{'list_product': list_product})
 	def login(request):
 		if(request.method == "POST"):
