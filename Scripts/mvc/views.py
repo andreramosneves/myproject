@@ -48,7 +48,7 @@ class HomePageView(View):
 			product =  Products.objects.get(pk=request.POST['product_id'])
 			#Crio o pedido
 			if(len(list_kart) == 0):
-				order_ob = Order(dt_cadastro=date.today().isoformat(),user_ins=user)
+				order_ob = Order(total=product.valor_produto,dt_cadastro=date.today().isoformat(),user_ins=user)
 				order_ob.save()
 			else:
 				for k in list_kart:
@@ -58,6 +58,10 @@ class HomePageView(View):
 			kart.save()
 			list_kart = Kart.objects.filter(dt_termino__isnull=True,user_ins=request.session['user_id'])
 			soma = Kart.objects.filter(dt_termino__isnull=True,user_ins=request.session['user_id']).aggregate(Sum('valor_produto'))['valor_produto__sum']
+			order_ob.total = soma
+			order_ob.save()
+#			order_ob = Order(total=soma,dt_cadastro=date.today().isoformat(),user_ins=user)
+#			order_ob.save()
 			return render(request,'kart.html',{'list_kart': list_kart,'message': msg,'soma': soma})
 		return render(request,'kart.html',{'list_kart': list_kart,'soma': soma})
 	def order(request):

@@ -34,6 +34,7 @@ class Kart(models.Model):
 class Order(models.Model):
 	user_ins = models.ForeignKey('Usuario', on_delete=models.CASCADE)
 	user_alt = models.ForeignKey(Usuario,related_name='order_user_alt',null=True, blank=True)
+	total =  models.DecimalField(decimal_places=2,max_digits=7)
 	dt_cadastro = models.DateField(blank=True)
 	dt_termino = models.DateField(null=True, blank=True)
 	dt_cancelamento = models.DateField(null=True, blank=True)
